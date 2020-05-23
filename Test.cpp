@@ -14,6 +14,20 @@ public:
         *this = obj;
     }
 
+    //Parametarized constructor
+    Test(size_t len, char* info) {
+        size = len;
+        cptr = make_shared<char>(new char[size]);
+        strncpy(cptr.get(), info, size);
+    }
+
+    //Move constructor
+    Test(Test&& old) noexcept {
+        //Using existing move assignment operator code
+        size = std::exchange(old.size, 0);
+        cptr = std::exchange(old.cptr, nullptr);
+    }
+
     //Assignment operator
     Test& operator=(const Test& obj) {
         if(this != &obj) {
@@ -25,38 +39,21 @@ public:
         return *this;
     }
 
-    //Move constructor
-    Test(Test&& old) noexcept {
-        //Using existing move assignment operator code
-        size = std::exchange(old.size, 0);
-        cptr = std::exchange(old.cptr, nullptr);
-    }
-
     //Move assignment operator
     Test& operator=(Test&& old) noexcept {
         if(this != &old) {
-            this->swap(old);
-            this->reset(old);
+            size = std::exchange(old.size, 0);
+            cptr = std::exchange(old.cptr, nullptr);
         }
         return *this;
     }
 
-    //Swaps obj with this
-    void swap(Test& old) noexcept{
-        std::swap(cptr, old.cptr);
-        std::swap(size, old.size);
-    }
-
     //Destructor
     ~Test() {
-        reset(*this);
+        size = 0;
+        cptr = nullptr;
     }
 private:
     shared_ptr<char> cptr = nullptr;
-    int size = 0;
-    
-    //Resets obj
-    static void reset(Test& obj) noexcept {
-        obj.size = 0;
-    }
+    int size = 0;    
 };
