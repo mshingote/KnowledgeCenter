@@ -1,19 +1,16 @@
-#include <iostream>
 #include <cstring>
+#include <memory>
 
 using namespace std;
 
 class Test {
 public:
-    //Simple contructor
-    Test() {
-        cptr = nullptr;
-        size = 0;
-    }
+    //Default constructor
+    Test() = default;
 
     //Copy constructor
     Test(const Test& obj) {
-        //Use existing assignment operator
+        //Using existing assignment operator
         *this = obj;
     }
 
@@ -22,11 +19,7 @@ public:
         if(this != &obj) {
             Test temp;
             temp.size = obj.size;
-
-            //It is assumed that size > len(cptr)
-            temp.cptr = new char[temp.size];
-
-            strncpy(temp.cptr, obj.cptr, temp.size);
+            temp.cptr = obj.cptr;
             *this = std::move(temp);
         }
         return *this;
@@ -34,7 +27,7 @@ public:
 
     //Move constructor
     Test(Test&& old) noexcept {
-        //Use existing move assignment operator code
+        //Using existing move assignment operator code
         *this = std::move(old);
     }
 
@@ -53,18 +46,16 @@ public:
         std::swap(size, old.size);
     }
 
-    //Resets obj
-    void reset(Test& obj) {
-        delete []obj.cptr;
-        obj.cptr = nullptr;
-        obj.size = 0;
-    }
-
     //Destructor
     ~Test() {
         reset(*this);
     }
 private:
-    char *cptr;
-    size_t size;
+    shared_ptr<char> cptr = nullptr;
+    size_t size = 0;
+    
+    //Resets obj
+    static void reset(Test& obj) {
+        obj.size = 0;
+    }
 };
