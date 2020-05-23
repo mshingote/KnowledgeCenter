@@ -20,14 +20,14 @@ public:
     //Assignment operator
     Test& operator=(const Test& obj) {
         if(this != &obj) {
-            Test *temp = new Test;
-            temp->size = obj.size;
+            Test temp;
+            temp.size = obj.size;
 
             //It is assumed that size > len(cptr)
-            temp->cptr = new char[temp->size];
+            temp.cptr = new char[temp.size];
 
-            strncpy(temp->cptr, obj.cptr, temp->size);
-            *this = std::move(*temp);
+            strncpy(temp.cptr, obj.cptr, temp.size);
+            *this = std::move(temp);
         }
         return *this;
     }
@@ -55,20 +55,14 @@ public:
 
     //Resets obj
     void reset(Test& obj) {
-        if(obj.cptr) {
-            delete []obj.cptr;
-            obj.cptr = nullptr;
-        }
+        delete []obj.cptr;
+        obj.cptr = nullptr;
         obj.size = 0;
     }
 
     //Destructor
-    virtual ~Test() {
-        if(cptr != nullptr) {
-            delete []cptr;
-            cptr = nullptr;
-        }
-        size = 0;
+    ~Test() {
+        reset(*this);
     }
 private:
     char *cptr;
