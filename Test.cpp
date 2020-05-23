@@ -1,7 +1,6 @@
 #include <cstring>
 #include <memory>
-
-using namespace std;
+#include<utility>
 
 class Test {
 public:
@@ -15,17 +14,16 @@ public:
     }
 
     //Parametarized constructor
-    Test(size_t len, char* info) {
+    Test(size_t len, char* data) {
         size = len;
-        cptr = make_shared<char>(new char[size]);
-        strncpy(cptr.get(), info, size);
+        cptr = std::make_shared<char[]>(new char[size]);
+        strncpy(cptr.get(), data, size);
     }
 
     //Move constructor
     Test(Test&& old) noexcept {
         //Using existing move assignment operator code
-        size = std::exchange(old.size, 0);
-        cptr = std::exchange(old.cptr, nullptr);
+        *this = std::move(old);
     }
 
     //Assignment operator
@@ -33,7 +31,7 @@ public:
         if(this != &obj) {
             Test temp;
             temp.size = obj.size;
-            temp.cptr = make_shared<char>(*obj.cptr);
+            temp.cptr = std::make_shared<char[]>(*obj.cptr);
             *this = std::move(temp);
         }
         return *this;
@@ -54,6 +52,6 @@ public:
         cptr = nullptr;
     }
 private:
-    shared_ptr<char> cptr = nullptr;
-    int size = 0;    
+    std::shared_ptr<char[]> cptr = nullptr;
+    size_t size = 0;    
 };
