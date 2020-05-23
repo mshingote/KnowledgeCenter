@@ -19,7 +19,7 @@ public:
         if(this != &obj) {
             Test temp;
             temp.size = obj.size;
-            temp.cptr = obj.cptr;
+            temp.cptr = make_shared<char>(*obj.cptr);
             *this = std::move(temp);
         }
         return *this;
@@ -28,7 +28,8 @@ public:
     //Move constructor
     Test(Test&& old) noexcept {
         //Using existing move assignment operator code
-        *this = std::move(old);
+        size = std::exchange(old.size, 0);
+        cptr = std::exchange(old.cptr, nullptr);
     }
 
     //Move assignment operator
@@ -41,7 +42,7 @@ public:
     }
 
     //Swaps obj with this
-    void swap(Test& old) {
+    void swap(Test& old) noexcept{
         std::swap(cptr, old.cptr);
         std::swap(size, old.size);
     }
@@ -52,10 +53,10 @@ public:
     }
 private:
     shared_ptr<char> cptr = nullptr;
-    size_t size = 0;
+    int size = 0;
     
     //Resets obj
-    static void reset(Test& obj) {
+    static void reset(Test& obj) noexcept {
         obj.size = 0;
     }
 };
