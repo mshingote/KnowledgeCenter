@@ -8,12 +8,12 @@ public:
     Test() = default;
 
     //Copy constructor
-    Test(const Test& other) : m_size(other.m_size), m_buffer(std::make_shared<char[]>(other.m_buffer)) {}
+    Test(const Test& other) : m_size(other.m_size), m_buffer(new char[m_size]()) {
+        strncpy(m_buffer.get(), other.m_buffer.get(), m_size);
+    } 
 
     //Parametarized constructor
-    Test(std::size_t len, const char* data) {
-        m_size = len;
-        m_buffer = std::make_shared<char[]>(new char[m_size]());
+    Test(std::size_t len, const char* data) : m_size(len), m_buffer(new char[len]()) {
         strncpy(m_buffer.get(), data, m_size);
     }
 
@@ -47,7 +47,7 @@ public:
     }
 private:
     std::size_t m_size = 0;    
-    std::shared_ptr<char[]> m_buffer = nullptr;
+    std::unique_ptr<char[]> m_buffer = nullptr;
 
     static void swap(Test& first, Test& second) noexcept{
         using std::swap;
