@@ -24,9 +24,10 @@ public:
     }
 
     //Assignment operator
-    Test& operator=(Test other) {
+    Test& operator=(Test& other) {
         if(this != &other) {
-            swap(*this, other);
+            Test test(other);
+            swap(*this, test);
         }
         return *this;
     }
@@ -40,14 +41,9 @@ public:
         return *this;
     }
 
-    //Destructor
-    ~Test() {
-        m_size = 0;
-        m_buffer = nullptr;
-    }
 private:
-    std::size_t m_size = 0;    
-    std::unique_ptr<char[]> m_buffer = nullptr;
+    std::size_t m_size;
+    std::unique_ptr<char[]> m_buffer;
 
     static void swap(Test& first, Test& second) noexcept{
         using std::swap;
