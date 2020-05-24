@@ -8,10 +8,7 @@ public:
     Test() = default;
 
     //Copy constructor
-    Test(const Test& obj) {
-        //Using existing assignment operator
-        *this = obj;
-    }
+    Test(const Test& other) : size(other.size), cptr(std::make_shared<char[]>(other.cptr)) {}
 
     //Parametarized constructor
     Test(size_t len, char* data) {
@@ -23,16 +20,15 @@ public:
     //Move constructor
     Test(Test&& old) noexcept {
         //Using existing move assignment operator code
-        *this = std::move(old);
+        Test temp(old);
+        swap(*this, temp);
     }
 
     //Assignment operator
-    Test& operator=(const Test& obj) {
-        if(this != &obj) {
-            Test temp;
-            temp.size = obj.size;
-            temp.cptr = std::make_shared<char[]>(obj.cptr);
-            *this = std::move(temp);
+    Test& operator=(const Test other) {
+        if(this != &other) {
+            //Use existing move assignment
+            *this = std::move(other);
         }
         return *this;
     }
@@ -40,8 +36,8 @@ public:
     //Move assignment operator
     Test& operator=(Test&& old) noexcept {
         if(this != &old) {
-            size = std::exchange(old.size, 0);
-            cptr = std::exchange(old.cptr, nullptr);
+            Test temp(old);
+            swap(*this, temp);
         }
         return *this;
     }
@@ -54,4 +50,10 @@ public:
 private:
     std::shared_ptr<char[]> cptr = nullptr;
     size_t size = 0;    
+
+    static void swap(Test& first, Test& second) noexcept{
+        using std::swap;
+        swap(first.size, second.size);
+        swap(first.cptr, second.cptr);
+    }
 };
