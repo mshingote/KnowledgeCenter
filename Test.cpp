@@ -19,7 +19,6 @@ public:
 
     //Move constructor
     Test(Test&& old) noexcept {
-        //Using existing move assignment operator code
         Test temp(old);
         swap(*this, temp);
     }
