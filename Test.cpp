@@ -13,7 +13,7 @@ public:
     //Parametarized constructor
     Test(size_t len, char* data) {
         size = len;
-        cptr = std::make_shared<char[]>(new char[size]);
+        cptr = std::make_shared<char[]>(new char[size]());
         strncpy(cptr.get(), data, size);
     }
 
