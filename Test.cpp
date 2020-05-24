@@ -8,34 +8,33 @@ public:
     Test() = default;
 
     //Copy constructor
-    Test(const Test& other) : size(other.size), cptr(std::make_shared<char[]>(other.cptr)) {}
+    Test(const Test& other) : m_size(other.m_size), m_buffer(std::make_shared<char[]>(other.m_buffer)) {}
 
     //Parametarized constructor
-    Test(size_t len, char* data) {
-        size = len;
-        cptr = std::make_shared<char[]>(new char[size]());
-        strncpy(cptr.get(), data, size);
+    Test(size_t len, const char* data) {
+        m_size = len;
+        m_buffer = std::make_shared<char[]>(new char[m_size]());
+        strncpy(m_buffer.get(), data, m_size);
     }
 
     //Move constructor
-    Test(Test&& old) noexcept {
-        Test temp(old);
+    Test(Test&& other) noexcept {
+        Test temp(other);
         swap(*this, temp);
     }
 
     //Assignment operator
-    Test& operator=(const Test other) {
+    Test& operator=(Test other) {
         if(this != &other) {
-            //Use existing move assignment
-            *this = std::move(other);
+            swap(*this, other);
         }
         return *this;
     }
 
     //Move assignment operator
-    Test& operator=(Test&& old) noexcept {
-        if(this != &old) {
-            Test temp(old);
+    Test& operator=(Test&& other) noexcept {
+        if(this != &other) {
+            Test temp(other);
             swap(*this, temp);
         }
         return *this;
@@ -43,16 +42,16 @@ public:
 
     //Destructor
     ~Test() {
-        size = 0;
-        cptr = nullptr;
+        m_size = 0;
+        m_buffer = nullptr;
     }
 private:
-    std::shared_ptr<char[]> cptr = nullptr;
-    size_t size = 0;    
+    size_t m_size = 0;    
+    std::shared_ptr<char[]> m_buffer = nullptr;
 
     static void swap(Test& first, Test& second) noexcept{
         using std::swap;
-        swap(first.size, second.size);
-        swap(first.cptr, second.cptr);
+        swap(first.m_size, second.m_size);
+        swap(first.m_buffer, second.m_buffer);
     }
 };
