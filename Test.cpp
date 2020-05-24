@@ -1,6 +1,6 @@
 #include <cstring>
 #include <memory>
-#include<utility>
+#include <utility>
 
 class Test {
 public:
@@ -31,7 +31,7 @@ public:
         if(this != &obj) {
             Test temp;
             temp.size = obj.size;
-            temp.cptr = std::make_shared<char[]>(*obj.cptr);
+            temp.cptr = std::make_shared<char[]>(obj.cptr);
             *this = std::move(temp);
         }
         return *this;
