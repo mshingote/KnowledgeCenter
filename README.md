@@ -1,2 +1,0 @@
-# KnowledgeCenter-
-Some random implementations.
