@@ -1,0 +1,6 @@
+StackInheritanceTest/Debug/*
+StackInheritanceTest/Release/*
+*.exe
+*.pdb
+*.manifest
+*.cache
