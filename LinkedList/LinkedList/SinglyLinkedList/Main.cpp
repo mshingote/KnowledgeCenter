@@ -28,7 +28,9 @@ void CheckMemoryStatus()
 }
 #endif
 
-void Test_InsertNodeAtBegin(SinglyLinkedList& ssl)
+typedef int mytype;
+
+void Test_InsertNodeAtBegin(SinglyLinkedList<mytype>& ssl)
 {
 	cout << __func__ << endl;
 	for (size_t i = 0; i < MAXSIZE; ++i)
@@ -37,7 +39,7 @@ void Test_InsertNodeAtBegin(SinglyLinkedList& ssl)
 	}
 }
 
-void Test_InsertNodeAtEnd(SinglyLinkedList& ssl)
+void Test_InsertNodeAtEnd(SinglyLinkedList<mytype>& ssl)
 {
 	cout << __func__ << endl;
 	for (size_t i = 0; i < MAXSIZE; ++i)
@@ -46,7 +48,7 @@ void Test_InsertNodeAtEnd(SinglyLinkedList& ssl)
 	}
 }
 
-void Test_InsertNodeAtPosition(SinglyLinkedList& ssl)
+void Test_InsertNodeAtPosition(SinglyLinkedList<mytype>& ssl)
 {
 	cout << __func__ << endl;
 	for (size_t i = 0; i < MAXSIZE; ++i)
@@ -55,7 +57,7 @@ void Test_InsertNodeAtPosition(SinglyLinkedList& ssl)
 	}
 }
 
-void Test_DisplaySinglyLinkedList(SinglyLinkedList& ssl)
+void Test_DisplaySinglyLinkedList(SinglyLinkedList<mytype>& ssl)
 {
 	cout << __func__ << endl;
 	ssl.DisplaySinglyLinkedList();
@@ -64,7 +66,7 @@ void Test_DisplaySinglyLinkedList(SinglyLinkedList& ssl)
 int main()
 {
 	{
-		SinglyLinkedList ssl;
+		SinglyLinkedList<mytype> ssl;
 		Test_InsertNodeAtBegin(ssl);
 		Test_InsertNodeAtEnd(ssl);
 		Test_InsertNodeAtPosition(ssl);
@@ -74,6 +76,5 @@ int main()
 #ifdef MEMORYSTATUS
 	CheckMemoryStatus();
 #endif
-
 	return 0;
 }

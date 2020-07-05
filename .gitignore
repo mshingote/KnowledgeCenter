@@ -1,7 +1,11 @@
-StackInheritanceTest/Debug/*
-StackInheritanceTest/Release/*
-*.exe
-*.pdb
-*.manifest
-*.cache
-*.vs*
+# Binaries
+**/Release/
+**/Debug/
+**.exe
+
+**.pdb
+**.manifest
+**.cache
+**.vs
+**.log
+/LinkedList/LinkedList/SinglyLinkedList/Debug/SinglyLinkedList.Build.CppClean.log
