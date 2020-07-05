@@ -4,3 +4,4 @@ StackInheritanceTest/Release/*
 *.pdb
 *.manifest
 *.cache
+*.vs*
