@@ -128,7 +128,7 @@ namespace LinkedList
 		{
 			return m_size;
 		}
-		
+
 		shared_ptr< ListNode<T> > __get_node()
 		{
 			shared_ptr< ListNode<T> > temp(new(std::nothrow) ListNode<T>);
@@ -148,7 +148,7 @@ namespace LinkedList
 			}
 			return temp;
 		}
-		
+
 	private:
 		size_t m_size = 0;
 		shared_ptr< ListNode<T> > m_head = nullptr;
