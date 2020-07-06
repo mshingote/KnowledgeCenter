@@ -16,7 +16,7 @@ namespace LinkedList
 	template<typename T> struct Node
 	{
 		T data;
-		shared_ptr<struct Node> next;
+		shared_ptr<struct Node> next = nullptr;
 	};
 	template<typename T> using ListNode = struct Node<T>;
 
@@ -136,7 +136,6 @@ namespace LinkedList
 			{
 				cerr << "Unable to allocate memory for new node in singly linked list." << endl;
 			}
-			temp.get()->next = nullptr;
 			return temp;
 		}
 
